@@ -1,8 +1,4 @@
-/* ChartJS
-  * -------
-  * Data and config for chartjs
-  */
-// 'use strict';
+console.log('chart-copy');
 
 data = data_2023_12_02_daily_json;
 

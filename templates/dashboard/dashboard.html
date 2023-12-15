@@ -4,6 +4,31 @@
 {% block content_wrapper %}
 
 <div class="row">
+  <div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+        <div class="vstack gap-1">
+            <div class="card-body">
+              <h4 class="card-title">Donut Chart</h4>
+              <canvas id="donut-chart"></canvas>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Donut Chart</h4>
+              <canvas id="donut-chart"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-8 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-1">Treemap</h4>
+        <canvas id="treemap"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
     <div class="col-lg-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
@@ -21,74 +46,16 @@
       </div>
     </div>
 </div>
-<div class="row">
-  <div class="col grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-9">
-            <div class="d-flex align-items-center align-self-start">
-              <h3 class="mb-0">$12.34</h3>
-              <p class="text-success ms-2 mb-0 font-weight-medium">+3.5%</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="icon icon-box-success ">
-              <span class="mdi mdi-arrow-top-right icon-item"></span>
-            </div>
-          </div>
-        </div>
-        <h6 class="text-muted font-weight-normal">Potential growth</h6>
-      </div>
-    </div>
-  </div>
-  <div class="col grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-9">
-            <div class="d-flex align-items-center align-self-start">
-              <h3 class="mb-0">$17.34</h3>
-              <p class="text-success ms-2 mb-0 font-weight-medium">+11%</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="icon icon-box-success">
-              <span class="mdi mdi-arrow-top-right icon-item"></span>
-            </div>
-          </div>
-        </div>
-        <h6 class="text-muted font-weight-normal">Revenue current</h6>
-      </div>
-    </div>
-  </div>
-  <div class="col grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-9">
-            <div class="d-flex align-items-center align-self-start">
-              <h3 class="mb-0">$12.34</h3>
-              <p class="text-danger ms-2 mb-0 font-weight-medium">-2.4%</p>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="icon icon-box-danger">
-              <span class="mdi mdi-arrow-bottom-left icon-item"></span>
-            </div>
-          </div>
-        </div>
-        <h6 class="text-muted font-weight-normal">Daily Income</h6>
-      </div>
-    </div>
-  </div>
+<div id="last-figure">
 </div>
+
 {% endblock %}
 
 {% block add_script %}
 <!-- <script src="{% static 'assets/js/chart.js' %}"></script> -->
 <script>
-  var data_2023_12_02_daily_json = JSON.parse('{{ 2023_12_02_daily_json|escapejs }}');
+  let donut_df = JSON.parse('{{ donut_df|escapejs }}');
 </script>
-<script src="{% static 'assets/js/chart-copy.js' %}"></script>
+<!-- <script src="{% static 'assets/js/chart-copy.js' %}"></script> -->
+<script src="{% static 'assets/js/chart_bha.js' %}"></script>
 {% endblock %}

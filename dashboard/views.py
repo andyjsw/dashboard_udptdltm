@@ -7,7 +7,6 @@ import json
 
 pd.set_option("display.max_colwidth", 250)
 
-
 from tqdm import tqdm
 tqdm.pandas()
 
@@ -22,7 +21,9 @@ import plotly.io as pio
 import plotly.graph_objs as go
 from ipywidgets import interact
 
-json_file = json.load(open('./data/2023-12-02-daily.json'))
+path_unique_dataset = "data/2023-12-02-unique.json"
+unique_df = pd.read_json(path_unique_dataset, orient="index")
+
 
 def str_to_datetime(dt: str):
     return datetime.strptime(dt, '%d-%m-%Y_%H-%M-%S')
@@ -104,11 +105,12 @@ def visualization_KB():
 
     daily_df = pd.read_json(path_daily_dataset, orient="index")
 
-    fig1 = line_plot_sum_current_player(daily_df,"current_player")
+    # fig1 = line_plot_sum_current_player(daily_df,"current_player")
     fig2 = line_plot(daily_df,"num_pos_reviews", "current_player")
-    fig3 = plot_current_player_by_game(daily_df,10)
+    # fig3 = plot_current_player_by_game(daily_df,10)
 
-    return fig1.to_html(div_id='3'), fig2.to_html(div_id='4'), fig3.to_html(div_id='5')
+    return pio.to_html(fig2, full_html=False)
+
 
 def display_charts(request):
     plot345 = visualization_KB()
@@ -116,18 +118,36 @@ def display_charts(request):
     context = {
         'plot1': game_rank1_player_by_hour(),
         'plot2': game_top3_player_by_hour(),
-        'plot3': plot345[0], 
-        'plot4': plot345[1], 
-        'plot5': plot345[2], 
+        'plot3': plot345, 
     }
 
     return render(request, 'displaycharts.html', context)
 
 
-def dashboard(request):
+def simple_line_chart():
+    fig = px.bar(x=[1, 2, 3, 4, 5], y=[1, 2, 3, 4, 5])
 
+    return pio.to_html(fig, full_html=False)
+
+
+def dashboard(request):
+    
     context = {
-        '2023_12_02_daily_json': json.dumps(json_file)
+        '2023_12_02_daily_json': json.dumps(json_file),
+        'rank': json.dumps(rank),
+        'plot1': json.dumps({'plot1': simple_line_chart()}),
+    }
+
+    return render(request, 'dashboard/dashboard.html', context=context)
+
+
+def prepare_for_donut(df):
+    return df[['price_format', 'genre', 'date']]
+
+
+def dashboard(request):
+    context = {
+        'donut_df': prepare_for_donut(unique_df).to_json(),
     }
 
     return render(request, 'dashboard/dashboard.html', context=context)
