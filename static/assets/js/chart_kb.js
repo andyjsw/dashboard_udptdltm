@@ -3,10 +3,6 @@
    * Data and config for chartjs
    */
 
-// REVIEWS
-const _num_pos_reviews = Object.values(dataOneMonth.num_pos_reviews)
-const _num_neg_reviews = Object.values(dataOneMonth.num_neg_reviews)
-
 
 // AVERAGE CURRENT PLAYER
 const _name = Object.values(dataOneMonth.name);
@@ -18,48 +14,8 @@ const _hour = Object.values(dataOneMonth.hour);
 const _name_Unique = Object.values(uniqueData.name);  
 const _genre_Unique = Object.values(uniqueData.genre);
 
-function calcReviews(gameGetInfo, name, hour, date, pos_reviews, neg_reviews) {
-  let idx_game = [];
+let areChart = null;
 
-  for(let i = 0; i < name.length; i++) {
-      if (name[i] == gameGetInfo) {
-          idx_game.push(i);
-      }
-  }
-//   console.log(idx_game)
-
-  let tmp_pos_reviews = idx_game.map(index => pos_reviews[index]);
-  let tmp_neg_reviews = idx_game.map(index => neg_reviews[index]);
-  let tmp_date = idx_game.map(index => date[index]);
-  let tmp_hour = idx_game.map(index => hour[index]);
-//   console.log(hour)
-//   console.log(tmp_date)
-//   console.log(tmp_hour)
-  let start_pos = 0;
-  let end_pos = 0;
-  let start_neg = 0;
-  let end_neg = 0;
-  let timeLabels = [];
-  let gradientPos = [];
-  let gradientNeg = [];
-
-  for (let i = 0; i < tmp_date.length; ++i) {
-    if (tmp_hour[i] === 0) {
-      start_pos = tmp_pos_reviews[i];
-      start_neg = tmp_neg_reviews[i];
-    } else if (tmp_hour[i] === 23) {
-      end_pos = tmp_pos_reviews[i];
-      end_neg = tmp_neg_reviews[i];
-      timeLabels.push(tmp_date[i]);
-      gradientPos.push(end_pos - start_pos);
-      gradientNeg.push(end_neg - start_neg);
-    }
-  }
-
-  return [timeLabels, gradientPos, gradientNeg];
-}
-
-v = calcReviews("Dota 2",_name,_hour,_date,_num_pos_reviews,_num_neg_reviews)
 
 
 function getData(name, date, hour, current_player, price_format, dateFilter=null, genreFilter=null, priceFilter=null) {
@@ -188,7 +144,9 @@ function drawBarChartKB(dateFilter=null, genreFilter=null) {
     // Get context with jQuery - using jQuery's .get() method.
     if ($("#areaChart_SumCurrentPlayer").length) {
     var areChartCanvas = $("#areaChart_SumCurrentPlayer").get(0).getContext("2d");
-    var areChart = new Chart(areChartCanvas, {
+    if (areChart != null)
+        areChart.destroy();
+    areChart = new Chart(areChartCanvas, {
         type: 'bar',
         data: DATA_average_current_player_by_hour,
         options: OPTION_average_current_player_by_hour,

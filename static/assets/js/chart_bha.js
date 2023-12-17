@@ -4,6 +4,8 @@
 // console.log(name_price_genre_dict);
 // console.log(_date, _genre, _price_format);
 
+let donutChart = null;
+
 function getData(date, Name, dateFilter=null, genreFilter=null, priceFilter=null) {
     // console.log(dateFilter, genreFilter, priceFilter, date, genre, price_format);
     let countFree = 0;
@@ -122,8 +124,9 @@ function drawChartBHa(countFree, countPaid, priceFilter=null) {
         data: data,
     };
 
-    let chart = new Chart('donut-chart', config);
-    let popupChart = new Chart('popup-chart', config);
+    if (donutChart != null)
+        donutChart.destroy();
+    donutChart = new Chart('donut-chart', config);
 }
 
 

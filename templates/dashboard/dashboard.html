@@ -1,21 +1,79 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
 {% block content_wrapper %}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
+<button id="launch-pop-up" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
 </button>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
       <div class="modal-body">
         <canvas id="popup-chart"></canvas>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="template-demo">
+  <div class="dropdown" id="price-btn">
+    <button 
+      class="btn btn-primary dropdown-toggle" 
+      type="button" id="dropdownMenuButton1" 
+      data-bs-toggle="dropdown" 
+      aria-haspopup="true" 
+      aria-expanded="false">
+      Price
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <a class="dropdown-item">Free</a>
+      <a class="dropdown-item">Cost</a>
+      <a class="dropdown-item">Both</a>
+    </div>
+  </div>
+
+  <div class="dropdown" id="genre-btn">
+    <button 
+      class="btn btn-primary dropdown-toggle" 
+      type="button" id="dropdownMenuButton1" 
+      data-bs-toggle="dropdown" 
+      aria-haspopup="true" 
+      aria-expanded="false">
+      Genre
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" 
+      style="
+        overflow: hidden;
+        overflow-y: auto;
+        max-height: calc(100vh - 150px);
+      "
+    >
+      <a class="dropdown-item" href="#">All</a>
+      {% if genre %}
+        {% for i in genre %}
+        <a class="dropdown-item" href="#">{{i}}</a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="dropdown" id="time-btn">
+    <button 
+      class="btn btn-primary dropdown-toggle" 
+      type="button" id="dropdownMenuButton1" 
+      data-bs-toggle="dropdown" 
+      aria-haspopup="true" 
+      aria-expanded="false">
+      Time
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <a class="dropdown-item">Day</a>
+      <a class="dropdown-item">Week</a>
+      <a class="dropdown-item">Month</a>
     </div>
   </div>
 </div>
@@ -25,12 +83,12 @@
     <div class="card">
         <div class="vstack gap-1">
             <div class="card-body">
-              <h4 class="card-title">Donut Chart</h4>
-              <canvas id="donut-chart"></canvas>
+              <h4 class="card-title">Free/Paid Games</h4>
+              <canvas id="donut-chart" style="max-height: 230px;"></canvas>
             </div>
             <div class="card-body">
-              <h4 class="card-title">Donut Chart</h4>
-              <canvas id="donut-chart"></canvas>
+              <h4 class="card-title">Table</h4>
+              <canvas id="donut-chart" style="max-height: 230px;"></canvas>
             </div>
         </div>
     </div>
@@ -39,7 +97,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title mb-1">Treemap</h4>
-        <canvas id="treemap"></canvas>
+          <canvas id="treemap" style="max-height:460px" class="treemap"></canvas>
       </div>
     </div>
   </div>
@@ -49,16 +107,16 @@
     <div class="col-lg-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Line chart</h4>
-          <canvas id="areaChart_SumCurrentPlayer" style="height:250px"></canvas>
+          <h4 class="card-title">Number of Games per Genre</h4>
+          <canvas id="horizontal-bar" style="max-height:230px"></canvas>
         </div>
       </div>
     </div>
     <div class="col-lg-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Bar chart</h4>
-          <canvas id="barChart" style="height:230px"></canvas>
+          <h4 class="card-title">Number of players</h4>
+          <canvas id="areaChart_SumCurrentPlayer" style="max-height:230px"></canvas>
         </div>
       </div>
     </div>
@@ -70,6 +128,13 @@
 
 {% block add_script %}
 <!-- <script src="{% static 'assets/js/chart.js' %}"></script> -->
+{{ one_week_data|json_script:"one_week_data" }}
+
+{{ metadata_day|json_script:"metadata_day" }}
+{{ metadata_week|json_script:"metadata_week" }}
+
+{{ num_of_genres_total_day|json_script:"num_of_genres_total_day" }}
+{{ num_of_genres_total_week|json_script:"num_of_genres_total_week" }}
 <script>
   let name_price_dict = JSON.parse('{{ name_price_dict|escapejs }}');
   let name_genre_dict = JSON.parse('{{ name_genre_dict|escapejs }}');
@@ -79,4 +144,8 @@
 </script>
 <script src="{% static 'assets/js/chart_kb.js' %}"></script>
 <script src="{% static 'assets/js/chart_bha.js' %}"></script>
+<script src="{% static 'scripts/horizontal_bar.js' %}"></script>
+<script src="{% static 'scripts/sub_chart.js' %}"></script>
+<script src="{% static 'scripts/treemap.js' %}"></script>
+<script src="{% static 'scripts/dashboard.js' %}"></script>
 {% endblock %}
