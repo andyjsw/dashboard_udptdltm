@@ -136,7 +136,7 @@ function drawBarChartKB(dateFilter=null, genreFilter=null) {
         data: average_current_player_by_hour,
         fill: true,
         borderColor:'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.3)',
+        backgroundColor: 'rgba(75, 192, 192, 0.8)',
         tension: 0.1
     }]
     };

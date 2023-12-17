@@ -89,22 +89,22 @@ function drawChartBHa(countFree, countPaid, priceFilter=null) {
         labels = ['Free to play', 'Charged'];
         _data = [countFree, countPaid];
         backgroundColor = [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)'
+            '#DAFFFB',
+            '#04364A',
         ]
     }
     else if (priceFilter == 'free') {
         labels = ['Free to play'];
         _data = [countFree];
         backgroundColor = [
-            'rgb(255, 99, 132)'
+            '#DAFFFB',
         ]
     }
     else if (priceFilter == 'paid') {
         labels = ['Charged'];
         _data = [countPaid];
         backgroundColor = [
-            'rgb(54, 162, 235)'
+            '#04364A',
         ]
     }
 

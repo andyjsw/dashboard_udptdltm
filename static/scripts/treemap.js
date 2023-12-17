@@ -39,8 +39,8 @@ function drawTreeMap(metadata,genre,price,update,tm){
         type: "treemap",
         data: {
             datasets: [
-                {
-                    label: "Hourly most-played games",
+                {   
+                    label: 'Steam Game Dataset',
                     tree: data,
                     key: "current_player",
                     groups: ['name'],

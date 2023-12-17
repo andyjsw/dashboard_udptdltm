@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %}</title>
-    {% block stylesheet %}{% endblock %}
+    {% block stylesheet %}
+    {% endblock %}
     <!-- plugins:css -->
     <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
@@ -23,6 +24,18 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+    <style>
+      .navbar-nav > li{
+        margin-left:15px !important; 
+        /* margin-right:30px !important; */
+        padding-left:15px !important;
+        /* padding-right:30px !important; */
+      }
+
+      .navbar-nav {
+        right: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="container-scroller">
@@ -53,15 +66,70 @@
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
             <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'assets/images/logo-mini.svg' %}" alt="logo" /></a>
           </div>
-          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+          <div class="navbar-menu-wrapper navbar-expand-sm flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
             <ul class="navbar-nav w-100">
-              <li class="nav-item w-100">
-                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                  <input type="text" class="form-control" placeholder="Search">
-                </form>
+              <li class="nav-item">
+                <div class="dropdown" id="price-btn">
+                  <button 
+                    class="btn btn-primary dropdown-toggle" 
+                    type="button" id="dropdownMenuButton1" 
+                    data-bs-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false">
+                    Price
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <a class="dropdown-item">Free</a>
+                    <a class="dropdown-item">Cost</a>
+                    <a class="dropdown-item">Both</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <div class="dropdown" id="genre-btn">
+                  <button 
+                    class="btn btn-primary dropdown-toggle" 
+                    type="button" id="dropdownMenuButton2" 
+                    data-bs-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false">
+                    Genre
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2"> <!--style="
+                    overflow: hidden;
+                    overflow-y: auto;
+                    max-height: 200px;
+                  "-->
+                    <a class="dropdown-item" href="#">All</a>
+                    {% if genre %}
+                      {% for i in genre %}
+                      <a class="dropdown-item" href="#">{{i}}</a>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <div class="dropdown" id="time-btn">
+                  <button 
+                    class="btn btn-primary dropdown-toggle" 
+                    type="button" id="dropdownMenuButton3" 
+                    data-bs-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false">
+                    Time
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                    <a class="dropdown-item">Day</a>
+                    <a class="dropdown-item">Week</a>
+                    <a class="dropdown-item">Month</a>
+                  </div>
+                </div>
               </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

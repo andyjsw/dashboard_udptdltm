@@ -60,14 +60,22 @@ def update_dashboard():
 
             print(change_df)
             metadata_df=pd.concat([metadata_df,change_df])
+            metadata_df.reset_index(inplace=True)
             
-            hour_top_avg_player=[]
+            metadata_day,num_of_genres_total_day=getMetaData_Day(metadata_df)
+            metadata_week,num_of_genres_total_week=getMetaData_Week(metadata_df)
+
+            one_week_data=getOneWeekData(metadata_df)
+
             async_to_sync(channel_layer.group_send)(
             'dashboard',
                 {
                     'type': 'dashboard_update_message',
-                    'treemap': hour_top_avg_player,
-
+                    'metadata_day': metadata_day,
+                    'metadata_week':metadata_week,
+                    'num_of_genres_total_day':num_of_genres_total_day,
+                    'num_of_genres_total_week':num_of_genres_total_week,
+                    'one_week_data':one_week_data,
                 }
             )
 
