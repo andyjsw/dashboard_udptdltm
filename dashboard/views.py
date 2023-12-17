@@ -12,7 +12,7 @@ import seaborn as sns
 sns.set_theme()
 
 from .utils_KB import getData_OneMonth
-from .utils_Bha import prepare_for_donut
+from .utils_Bha import prepare_for_donut, top_5_feature_list
 from .utils_Dat import getTopGenre, getMetaData_Day, getMetaData_Week, getOneWeekData, original_data, unique
 
 
@@ -30,6 +30,7 @@ def str_to_datetime(dt: str):
 def dashboard(request):
     # Bha
     name_price_dict, name_genre_dict = prepare_for_donut(unique_df)
+    genre_feature_list_dict = top_5_feature_list(unique_df)
 
     # KB
     dataOneMonth = getData_OneMonth(daily_df, date_now=max(daily_df.date))
@@ -53,6 +54,7 @@ def dashboard(request):
         # Bha
         'name_price_dict': json.dumps(name_price_dict),
         'name_genre_dict': json.dumps(name_genre_dict),
+        'genre_feature_list_dict': json.dumps(genre_feature_list_dict),
 
         # KB
         'uniqueData': json.dumps(uniqueData_dict),

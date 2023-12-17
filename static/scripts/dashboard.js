@@ -37,16 +37,20 @@ $('#genre-btn a').on('click', function () {
     $(this).parents('#genre-btn').find('button')
         .html(`${selText}`);
     if(selText=='All'){
+        getFeatureListDisplay(selText);
         selText=1
         _select_genre_filter = null;
     }
     else {
+        getFeatureListDisplay(selText);
         _select_genre_filter = [selText];
     }
     
     treemap=drawTreeMap(treemap.metadata,selText,treemap.price,1,treemap.tm);
 
     redrawBarChartAndDonutChart();
+
+    
 });
 
 $('#price-btn a').on('click', function () {
