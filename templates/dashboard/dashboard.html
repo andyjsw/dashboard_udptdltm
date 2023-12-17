@@ -2,6 +2,23 @@
 {% load static %}
 
 {% block content_wrapper %}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <canvas id="popup-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-4 grid-margin stretch-card">
@@ -33,7 +50,7 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Line chart</h4>
-          <canvas id="lineChart" style="height:250px"></canvas>
+          <canvas id="areaChart_SumCurrentPlayer" style="height:250px"></canvas>
         </div>
       </div>
     </div>
@@ -54,8 +71,12 @@
 {% block add_script %}
 <!-- <script src="{% static 'assets/js/chart.js' %}"></script> -->
 <script>
-  let donut_df = JSON.parse('{{ donut_df|escapejs }}');
+  let name_price_dict = JSON.parse('{{ name_price_dict|escapejs }}');
+  let name_genre_dict = JSON.parse('{{ name_genre_dict|escapejs }}');
+
+  let dataOneMonth = JSON.parse('{{ dataOneMonth|escapejs }}');
+  let uniqueData = JSON.parse('{{ uniqueData|escapejs }}');
 </script>
-<!-- <script src="{% static 'assets/js/chart-copy.js' %}"></script> -->
+<script src="{% static 'assets/js/chart_kb.js' %}"></script>
 <script src="{% static 'assets/js/chart_bha.js' %}"></script>
 {% endblock %}

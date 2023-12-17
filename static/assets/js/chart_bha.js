@@ -1,15 +1,18 @@
-const _date = Object.values(donut_df.date);
-const _genre = Object.values(donut_df.genre);
-const _price_format = Object.values(donut_df.price_format);
+// const _date = Object.values(donut_df.date);
+// const _name = Object.values(donut_df.name);
 
+// console.log(name_price_genre_dict);
 // console.log(_date, _genre, _price_format);
 
-function getData(date, genre, price_format, dateFilter=null, genreFilter=null, priceFilter=null) {
+function getData(date, Name, dateFilter=null, genreFilter=null, priceFilter=null) {
     // console.log(dateFilter, genreFilter, priceFilter, date, genre, price_format);
     let countFree = 0;
     let countPaid = 0;
+    let freeGameSet = new Set();
+    let paidGameSet = new Set();
 
     for (let i = 0; i < date.length; ++i) {
+        let thisRowName = Name[i];
 
         if (dateFilter != null) {
             let thisRowDate = date[i];
@@ -19,11 +22,8 @@ function getData(date, genre, price_format, dateFilter=null, genreFilter=null, p
                 yesterdayDate = Number(yesterdayDate);
 
                 if (thisRowDate < yesterdayDate) {
-                    // console.log('false');
                     continue;
                 }
-                // console.log(thisRowDate, yesterdayDate);
-                // console.log('true');
             }
             else if (dateFilter == 'week') {
                 let lastWeekDate = new Date();
@@ -31,11 +31,8 @@ function getData(date, genre, price_format, dateFilter=null, genreFilter=null, p
                 lastWeekDate = Number(lastWeekDate);
 
                 if (thisRowDate < lastWeekDate) {
-                    // console.log('false');
                     continue;
                 }
-                // console.log(thisRowDate, lastWeekDate);
-                // console.log('true');
             }
             else if (dateFilter == 'month') {
                 let lastMonthDate = new Date();
@@ -43,24 +40,21 @@ function getData(date, genre, price_format, dateFilter=null, genreFilter=null, p
                 lastMonthDate = Number(lastMonthDate);
 
                 if (thisRowDate < lastMonthDate) {
-                    // console.log(thisRowDate, lastMonthDate)
-                    // console.log('false');
                     continue;
                 }
             }
         }
 
         if (genreFilter != null) {
-            let thisRowGenre = genre[i];
+            let thisRowGenre = name_genre_dict[thisRowName];
             const filteredArray = thisRowGenre.filter(value => genreFilter.includes(value));
-            if (filteredArray.length == 0) {
-                console.log(thisRowGenre);
+            if (filteredArray.length < genreFilter.length) {
                 continue;
             }
         }
 
         if (priceFilter != null) {
-            let thisRowPriceFormat = price_format[i];
+            let thisRowPriceFormat = name_price_dict[thisRowName];
             if (priceFilter == 'free') {
                 if (thisRowPriceFormat > 0)
                     continue;
@@ -71,12 +65,15 @@ function getData(date, genre, price_format, dateFilter=null, genreFilter=null, p
             }
         }
 
-        let thisRowPriceFormat = price_format[i];
+        let thisRowPriceFormat = name_price_dict[thisRowName];
         if (thisRowPriceFormat <= 0)
-            countFree += 1;
+            freeGameSet.add(thisRowName)
         else
-            countPaid += 1;
+            paidGameSet.add(thisRowName)
     }
+
+    countFree = freeGameSet.size;
+    countPaid = paidGameSet.size;
 
     return [countFree, countPaid]
 }
@@ -126,7 +123,14 @@ function drawChartBHa(countFree, countPaid, priceFilter=null) {
     };
 
     let chart = new Chart('donut-chart', config);
+    let popupChart = new Chart('popup-chart', config);
 }
 
-let donutData = getData(date=_date, genre=_genre, price_format=_price_format, dateFilter=null, genreFilter=null, priceFilter=null);
-drawChartBHa(donutData[0], donutData[1], priceFilter=null);
+
+function drawDonutChartBHa(dateFilter=null, genreFilter=null, priceFilter=null) {
+    let donutData = getData(date=_date, Name=_name, dateFilter=dateFilter, genreFilter=genreFilter, priceFilter=priceFilter);
+    drawChartBHa(donutData[0], donutData[1], priceFilter=priceFilter);
+}
+
+
+drawDonutChartBHa(null, null, null);
