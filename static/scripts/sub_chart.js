@@ -3,7 +3,7 @@
    * Data and config for chartjs
    */
   const one_week_data = JSON.parse(document.getElementById('one_week_data').textContent);
-  console.log(one_week_data)
+  // console.log(one_week_data)
   const _num_pos_reviews = Object.values(one_week_data.num_pos_reviews)
   const _num_neg_reviews = Object.values(one_week_data.num_neg_reviews)
   

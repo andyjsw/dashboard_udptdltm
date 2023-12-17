@@ -3,7 +3,7 @@ function getFeatureListDisplay(genre) {
         $(this).find('h4').html('Top 5 features: ' + String(genre));
         
         let thisGenreFeatureList = genre_feature_list_dict[genre];
-        console.log(genre, thisGenreFeatureList);
+        // console.log(genre, thisGenreFeatureList);
         let allFeatureHTML = '';
         for (let i = 0; i < thisGenreFeatureList.length; ++i) {
             allFeatureHTML = allFeatureHTML + 

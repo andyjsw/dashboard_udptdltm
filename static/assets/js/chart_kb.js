@@ -18,7 +18,7 @@ let areChart = null;
 
 
 
-function getData(name, date, hour, current_player, price_format, dateFilter=null, genreFilter=null, priceFilter=null) {
+function KBgetData(name, date, hour, current_player, price_format, dateFilter=null, genreFilter=null, priceFilter=null) {
   let sum_current_player = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
     0., 0., 0., 0., 0., 0., 0.];
   let count_hour = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
@@ -64,8 +64,8 @@ function getData(name, date, hour, current_player, price_format, dateFilter=null
           let idx_game = _name_Unique.indexOf(name[i]);
           // console.log(name[i]);
           let thisRowGenre = _genre_Unique[idx_game];
-          // console.log(thisRowGenre);
           const filteredArray = thisRowGenre.filter(value => genreFilter.includes(value));
+        //   console.log(filteredArray, genreFilter, thisRowGenre);
           if (filteredArray.length < genreFilter.length) {
               // console.log(thisRowGenre);
               continue;
@@ -106,7 +106,7 @@ function getData(name, date, hour, current_player, price_format, dateFilter=null
 
 
 function drawBarChartKB(dateFilter=null, genreFilter=null) {
-    let average_current_player_by_hour = getData(_name,_date,_hour,_current_player,_price_format,dateFilter=dateFilter,genreFilter=genreFilter);
+    let average_current_player_by_hour = KBgetData(_name,_date,_hour,_current_player,_price_format,dateFilter=dateFilter,genreFilter=genreFilter);
 
     const OPTION_average_current_player_by_hour = {
     responsive: true,
